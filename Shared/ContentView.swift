@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var temperature = "__";
+    @State var temperature = "... C°";
     
     var body: some View {
         
@@ -37,13 +37,13 @@ struct ContentView: View {
                 
                 // parsing prometheus api standart metric
                 let temp = response.data.result[0].value[1]
-                
-                print(temp)
-                
                 let s = String(describing: temp)
+                var modified = s.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "string(", with: "").replacingOccurrences(of: ")", with: "");
+                modified += " C°"
                 
+            
                 DispatchQueue.main.async {
-                    self.temperature = s
+                    self.temperature = modified
                 }
                 return
                 
